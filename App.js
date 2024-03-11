@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker'
 import ImageViewer from './components/ImageViewer';
 import Button from './components/Button';
+import IconButton from './components/IconButton';
+import CircleButton from './components/CircleButton';
 
 const backgroundPlaceholderImage = require('./assets/images/background-image.png');
 
@@ -25,6 +27,18 @@ export default function App() {
     }
   }
 
+  const onReset = () => {
+    setShowAppOptions(false);
+  }
+
+  const onAddSticker = () => {
+    alert('Add sticker');
+  }
+
+  const onSaveImageAsync = async () => {
+    alert('Save image');
+  }
+
   return (
     <View style={styles.container}>
 
@@ -35,19 +49,26 @@ export default function App() {
       </View>
 
       {showAppOptions
-        ? (<View />)
-        : (
-          <View style={styles.footerContainer}>
-            <Button
-              theme="primary"
-              label="Choose a photo"
-              onPress={pickImageAsync}
-            />
-            <Button
-              label="Use this photo"
-              onPress={() => setShowAppOptions(true)}
-            />
-          </View>
+        ? (
+          <View style={styles.optionsContainer}>
+            <View style={styles.optionsRow}>
+              <IconButton icon="refresh" label="Reset" onPress={onReset} />
+              <CircleButton onPress={onAddSticker} />
+              <IconButton icon="save-alt" label="Save" onPress={onSaveImageAsync} />
+            </View>
+          </View>)
+
+        : (<View style={styles.footerContainer}>
+          <Button
+            theme="primary"
+            label="Choose a photo"
+            onPress={pickImageAsync}
+          />
+          <Button
+            label="Use this photo"
+            onPress={() => setShowAppOptions(true)}
+          />
+        </View>
         )}
 
 
@@ -70,5 +91,13 @@ const styles = StyleSheet.create({
   footerContainer: {
     flex: 1 / 3,
     alignItems: 'center',
-  }
+  },
+  optionsContainer: {
+    position: 'absolute',
+    bottom: 80,
+  },
+  optionsRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
 });
